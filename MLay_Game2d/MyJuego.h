@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Juego.h"
 namespace MLayGame2d {
 
 	using namespace System;
@@ -14,13 +14,12 @@ namespace MLayGame2d {
 	/// </summary>
 	public ref class MyJuego : public System::Windows::Forms::Form
 	{
+		ControladorJuego^ juego;
 	public:
 		MyJuego(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			juego = gcnew ControladorJuego();
 		}
 
 	protected:
@@ -34,12 +33,14 @@ namespace MLayGame2d {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::Timer^ Clock;
+	private: System::ComponentModel::IContainer^ components;
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -48,12 +49,47 @@ namespace MLayGame2d {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->components = gcnew System::ComponentModel::Container();
-			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"MyJuego";
-			this->Padding = System::Windows::Forms::Padding(0);
+			this->components = (gcnew System::ComponentModel::Container());
+			this->Clock = (gcnew System::Windows::Forms::Timer(this->components));
+			this->SuspendLayout();
+			// 
+			// Clock
+			// 
+			this->Clock->Enabled = true;
+			this->Clock->Interval = 33;
+			this->Clock->Tick += gcnew System::EventHandler(this, &MyJuego::Clock_Tick);
+			// 
+			// MyJuego
+			// 
+			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->ClientSize = System::Drawing::Size(417, 382);
+			this->Name = L"MyJuego";
+			this->Text = L"MyJuego";
+			this->Load += gcnew System::EventHandler(this, &MyJuego::MyJuego_Load);
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyJuego::MyJuego_KeyDown);
+			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyJuego::MyJuego_KeyUp);
+			this->ResumeLayout(false);
+
 		}
 #pragma endregion
+	private: System::Void Clock_Tick(System::Object^ sender, System::EventArgs^ e) {
+		Graphics^ g = this->CreateGraphics();
+		Bitmap^ imgLobo;
+		g->Clear(Color::White);
+		juego->mover(g);
+		juego->mostrar(g,imgLobo);
+	}
+	private: System::Void MyJuego_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		juego->movimientoJugador(true, e->KeyCode);
+	}
+	private: System::Void MyJuego_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+		juego->movimientoJugador(false, e->KeyCode);
+	}
+	private: System::Void MyJuego_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
 	};
 }
+
+
+

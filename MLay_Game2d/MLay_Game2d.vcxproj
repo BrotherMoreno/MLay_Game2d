@@ -123,9 +123,19 @@
     <ClCompile Include="MyJuego.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencias.h" />
+    <ClInclude Include="Entidad.h" />
+    <ClInclude Include="Juego.h" />
+    <ClInclude Include="Jugador.h" />
     <ClInclude Include="MyJuego.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Obstaculo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MyJuego.resx">
+      <DependentUpon>MyJuego.h</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
