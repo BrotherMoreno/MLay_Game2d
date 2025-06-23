@@ -37,9 +37,18 @@ public:
 	void mostrar(Graphics^ g, Bitmap^img) {
 		Rectangle corte = Rectangle(iDx*ancho, accion*alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);
-		if (dx != 0 || dy != 0) {
+		g->DrawRectangle(Pens::Black, area());
+		if (dx != 0 || dy != 0) 
+		{
+			if(accion>=CaminarDerecha && accion<=CaminarIzquierda)
+			{
+				iDx = (iDx + 1) % 8;
+			}
+			else if (accion >= SaltarMirandoDerecha && accion <= saltarMirandoIzquierda) 
+			{
+				iDx = (iDx + 1) % 12;
 
-			iDx = (iDx + 1) % 8;
+			}
 		}
 
 	}

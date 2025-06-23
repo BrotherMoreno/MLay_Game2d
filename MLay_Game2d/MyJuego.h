@@ -75,10 +75,12 @@ namespace MLayGame2d {
 #pragma endregion
 	private: System::Void Clock_Tick(System::Object^ sender, System::EventArgs^ e) {
 		Graphics^ g = this->CreateGraphics();
-		Bitmap^ imgLobo;
-		g->Clear(Color::White);
-		juego->mover(g);
-		juego->mostrar(g,imgLobo);
+		BufferedGraphicsContext^ bfc = BufferedGraphicsManager::Current;
+		BufferedGraphics^ bf = bfc->Allocate(g, this->ClientRectangle);
+		bf->Graphics->Clear(Color::White);
+		juego->mover(bf->Graphics);
+		juego->mostrar(bf->Graphics);
+		bf->Render(g);
 	}
 	private: System::Void MyJuego_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		juego->movimientoJugador(true, e->KeyCode);

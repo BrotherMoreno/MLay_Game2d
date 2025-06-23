@@ -13,6 +13,7 @@ public:
 	void mostrar(Graphics^ g, Bitmap^ img)
 	{
 		g->DrawImage(img, area());
+		g->DrawRectangle(Pens::Black, area());
 	}
 };
 

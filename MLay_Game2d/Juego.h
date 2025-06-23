@@ -74,7 +74,7 @@ public:
 			jugador->mover(g);
 		obstaculos->mover(g);
 	}
-	void mostrar(Graphics^ g, Bitmap^ img)
+	void mostrar(Graphics^ g)
 	{
 		jugador->mostrar(g, imgPersonaje);
 		obstaculos->mostrar(g, imgLobo);
