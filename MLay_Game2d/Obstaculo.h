@@ -5,8 +5,8 @@ class Obstaculo : public Entidad
 {
 public:
 	Obstaculo(Bitmap^ img) {
-		x = rand() % 200;
-		y = rand() % 200;
+		x = rand() % 500;
+		y = rand() % 500;
 		ancho = img->Width;
 		alto = img->Height;
 	}

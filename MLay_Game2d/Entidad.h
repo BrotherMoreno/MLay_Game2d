@@ -24,11 +24,13 @@ public:
 	{
 		dy = value;
 	}
+	
 	Rectangle area() {
-		return Rectangle(x, y, ancho, alto);
+		return Rectangle(x, y, ancho, alto );
 	}
 	Rectangle NextArea() {
-		return Rectangle(x + dx, y + dy, ancho, alto);
+		//redefinir con virtual en la de jugador, no te olvide ctmrrrrrr    !!! IMPORTANTE  !!!
+		return Rectangle(x + dx, y + dy, ancho, alto); //hitboxParaColision-------------> no definida aun en funcion
 	}
 	virtual void mover(Graphics^ g) {
 		y += dy;

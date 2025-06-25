@@ -12,6 +12,7 @@ enum SpriteJugador
 class Jugador : public Entidad
 {
 private: 
+	int vidas;
 	SpriteJugador  accion;
 public:
 	Jugador(Bitmap^ img  ) {
@@ -23,7 +24,14 @@ public:
 
 		accion = CaminarDerecha;
 	}
-	void setAccion(SpriteJugador value) {
+	void SetVida(int value) {
+		vidas += value;
+	}
+	int GetVida() {
+		return vidas;
+	}
+	
+	void SetAccion(SpriteJugador value) {
 		accion = value;
 	}
 	void mover(Graphics^ g) {
@@ -37,7 +45,7 @@ public:
 	void mostrar(Graphics^ g, Bitmap^img) {
 		Rectangle corte = Rectangle(iDx*ancho, accion*alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);
-		g->DrawRectangle(Pens::Black, area());
+		g->DrawRectangle(Pens::Black, x+11, y+7, ancho-30, alto-7);
 		if (dx != 0 || dy != 0) 
 		{
 			if(accion>=CaminarDerecha && accion<=CaminarIzquierda)

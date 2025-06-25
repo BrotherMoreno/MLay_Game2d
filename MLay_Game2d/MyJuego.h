@@ -19,7 +19,7 @@ namespace MLayGame2d {
 		MyJuego(void)
 		{
 			InitializeComponent();
-			juego = gcnew ControladorJuego();
+			juego = gcnew ControladorJuego(3);
 		}
 
 	protected:
@@ -63,7 +63,7 @@ namespace MLayGame2d {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(417, 382);
+			this->ClientSize = System::Drawing::Size(1262, 579);
 			this->Name = L"MyJuego";
 			this->Text = L"MyJuego";
 			this->Load += gcnew System::EventHandler(this, &MyJuego::MyJuego_Load);

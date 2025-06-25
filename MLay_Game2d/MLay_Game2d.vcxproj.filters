@@ -35,10 +35,10 @@
     <ClInclude Include="Juego.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Obstaculo.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="Enemigo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstaculo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
