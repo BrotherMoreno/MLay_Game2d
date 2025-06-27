@@ -16,7 +16,7 @@ private:
 	Bitmap^ imgEnemigo;
 public:
 	ControladorJuego(int E) {
-		imgLobo = gcnew Bitmap("img/howl.png");
+		imgLobo = gcnew Bitmap("img/BOG.png");
 		imgPersonaje = gcnew Bitmap("img/LaySpriteUnic.png");
 		imgEnemigo = gcnew Bitmap("img/MageSprite.png");
 

@@ -28,7 +28,7 @@ public:
 	Rectangle area() {
 		return Rectangle(x, y, ancho, alto );
 	}
-	Rectangle NextArea() {
+	virtual Rectangle NextArea() {
 		//redefinir con virtual en la de jugador, no te olvide ctmrrrrrr    !!! IMPORTANTE  !!!
 		return Rectangle(x + dx, y + dy, ancho, alto); //hitboxParaColision-------------> no definida aun en funcion
 	}
