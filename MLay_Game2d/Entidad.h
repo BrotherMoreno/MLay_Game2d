@@ -32,6 +32,15 @@ public:
 		//redefinir con virtual en la de jugador, no te olvide ctmrrrrrr    !!! IMPORTANTE  !!!
 		return Rectangle(x + dx, y + dy, ancho, alto); //hitboxParaColision-------------> no definida aun en funcion
 	}
+	Rectangle HitBox() 
+	{
+		return Rectangle(x+ ancho/4, y +alto/5, ancho/2.2, alto*4/5);
+
+	}
+	Rectangle NextHitBox()
+	{
+		return Rectangle((x + ancho / 4)+dx, (y + alto / 5)+dy, ancho / 2.2, alto * 4 / 5); //hitboxParaColision-------------> no definida aun en funcion
+	}
 	virtual void mover(Graphics^ g) {
 		y += dy;
 		x += dx;

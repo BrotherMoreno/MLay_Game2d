@@ -6,7 +6,10 @@ enum SpriteJugador
 	CaminarDerecha,
 	CaminarIzquierda,
 	SaltarMirandoDerecha,
-	saltarMirandoIzquierda
+	saltarMirandoIzquierda,
+	AtacarDerecha,
+	AtacarIzquierda,
+	Desaparecer,
 };
 
 class Jugador : public Entidad
@@ -15,14 +18,15 @@ private:
 	int vidas;
 	SpriteJugador  accion;
 public:
-	Jugador(Bitmap^ img  ) {
+	Jugador(Bitmap^ img, int v  ) {
 		x = 60;
 		y = 60;
 		dx = dy = 0;
 		ancho = img->Width/12;
-		alto = img->Height/4;
+		alto = img->Height/7;
 
 		accion = CaminarDerecha;
+		vidas = v;
 	}
 	void SetVida(int value) {
 		vidas += value;
@@ -30,8 +34,14 @@ public:
 	int GetVida() {
 		return vidas;
 	}
-	
+	SpriteJugador GetAccion() 
+	{
+		return accion;
+	}
 	void SetAccion(SpriteJugador value) {
+		if (accion != value) {
+			iDx = 0;
+		}
 		accion = value;
 	}
 	void mover(Graphics^ g) {
@@ -42,22 +52,36 @@ public:
 			y += dy;
 		}
 	}
-	void mostrar(Graphics^ g, Bitmap^img) {
-		Rectangle corte = Rectangle(iDx*ancho, accion*alto, ancho, alto);
+	void mostrar(Graphics^ g, Bitmap^ img) {
+		g->DrawString("vidas: " + vidas, gcnew Font("arial", 12), Brushes::Black, 0, 0);
+		Rectangle corte = Rectangle(iDx * ancho, accion * alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);
-		g->DrawRectangle(Pens::Black, x+11, y+7, ancho-30, alto-7);
-		if (dx != 0 || dy != 0) 
+		g->DrawRectangle(Pens::Black, area());
+		g->DrawRectangle(Pens::Blue, HitBox());
+		
+		if(accion>=CaminarDerecha && accion<=CaminarIzquierda&&(dx!=0||dy!=0))
 		{
-			if(accion>=CaminarDerecha && accion<=CaminarIzquierda)
-			{
-				iDx = (iDx + 1) % 8;
-			}
-			else if (accion >= SaltarMirandoDerecha && accion <= saltarMirandoIzquierda) 
-			{
-				iDx = (iDx + 1) % 12;
+			iDx = (iDx + 1) % 8;
+		}
+		else if (accion >= SaltarMirandoDerecha && accion <= saltarMirandoIzquierda) 
+		{
+			iDx = (iDx + 1) % 12;
 
+		}
+			
+		else if (accion >= AtacarDerecha && accion <= AtacarIzquierda) 
+		{
+			iDx = (iDx + 1) % 8;
+			if (iDx==0)
+			{
+				accion = (SpriteJugador)(accion - 4);
 			}
 		}
+		else if (accion == Desaparecer) 
+		{
+			iDx = (iDx + 1) % 11;
+		}
+		
 
 	}
 };

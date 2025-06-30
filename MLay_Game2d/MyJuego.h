@@ -19,7 +19,7 @@ namespace MLayGame2d {
 		MyJuego(void)
 		{
 			InitializeComponent();
-			juego = gcnew ControladorJuego(3);
+			juego = gcnew ControladorJuego(10,7,30);
 		}
 
 	protected:
@@ -78,9 +78,12 @@ namespace MLayGame2d {
 		BufferedGraphicsContext^ bfc = BufferedGraphicsManager::Current;
 		BufferedGraphics^ bf = bfc->Allocate(g, this->ClientRectangle);
 		bf->Graphics->Clear(Color::White);
-		juego->mover(bf->Graphics);
 		juego->mostrar(bf->Graphics);
 		bf->Render(g);
+
+		if (juego->mover(g) == false) {
+			this->Close();
+		}
 	}
 	private: System::Void MyJuego_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		juego->movimientoJugador(true, e->KeyCode);

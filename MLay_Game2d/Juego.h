@@ -14,15 +14,19 @@ private:
 	Bitmap^ imgLobo;
 	Bitmap^ imgPersonaje;
 	Bitmap^ imgEnemigo;
+	int coolcownAtaqueEnemigo;
+	int tiempo;
 public:
-	ControladorJuego(int E) {
+	ControladorJuego(int v, int E,int t) {
 		imgLobo = gcnew Bitmap("img/BOG.png");
-		imgPersonaje = gcnew Bitmap("img/LaySpriteUnic.png");
+		imgPersonaje = gcnew Bitmap("img/LaySprite2.png");
 		imgEnemigo = gcnew Bitmap("img/MageSprite.png");
 
-		jugador = new Jugador(imgPersonaje);
+		jugador = new Jugador(imgPersonaje, v);
 		obstaculos = new Obstaculos(5,jugador->area(),imgLobo);
 		enemigos = new Enemigos(imgEnemigo, E);
+		coolcownAtaqueEnemigo = 0;
+		tiempo= t*1000;
 	}
 	~ControladorJuego() {
 		delete jugador;
@@ -62,6 +66,13 @@ public:
 
 				jugador->SetDx(v);
 			}
+			else if (tecla == Keys::X) 
+			{
+				if (jugador->GetAccion() == CaminarDerecha)
+					jugador->SetAccion(AtacarDerecha);
+				else if (jugador->GetAccion() == CaminarIzquierda)
+					jugador->SetAccion(AtacarIzquierda);
+			}
 		}
 		else 
 		{
@@ -75,16 +86,32 @@ public:
 				jugador->SetDx(0);
 		}
 	}
-	void mover(Graphics^ g)
+	bool mover(Graphics^ g)
 	{
-		if(obstaculos->Colision(jugador->NextArea())==false)
+		if (jugador->GetAccion()>=AtacarDerecha && jugador->GetAccion()<=AtacarIzquierda) 
+		{
+			/*obstaculos->Eliminar(jugador->area());*/
+		}
+		if (enemigos->Colision(jugador->area())&& clock() - coolcownAtaqueEnemigo>=2000) {
+			jugador->SetVida(-1);
+			coolcownAtaqueEnemigo = clock();
+
+			if (jugador->GetVida() == 0)
+				return false;
+		}
+		if (clock() >= tiempo)
+			return false;
+		
+		if(obstaculos->Colision(jugador->NextHitBox())==false)
 			jugador->mover(g);
 		obstaculos->mover(g);
 		enemigos->mover(g);
-		
+		return true;
 	}
 	void mostrar(Graphics^ g)
 	{
+		g->DrawString("tiempo: "+ ((tiempo - clock()) / 1000), gcnew Font("arial", 12), Brushes::Black, 0, 20);
+
 		jugador->mostrar(g, imgPersonaje);
 		obstaculos->mostrar(g, imgLobo);
 		enemigos->mostrar(g, imgEnemigo);

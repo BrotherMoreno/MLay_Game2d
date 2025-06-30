@@ -45,6 +45,10 @@ public:
 		if (!(y + dy >= 0 && y + alto + dy <= g->VisibleClipBounds.Height)) {
 			dy *= -1;
 		}
+		if (dx < 0)
+			accion = CaminarIzquierdaEnemigo;
+		else if (dx > 0)
+			accion = CaminarDerechaEnemigo;
 		x += dx;
 		y += dy;
 	}
