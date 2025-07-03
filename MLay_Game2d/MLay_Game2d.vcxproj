@@ -132,6 +132,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Obstaculo.h" />
+    <ClInclude Include="ProyectilCorteVital.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyJuego.resx">

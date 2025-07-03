@@ -43,7 +43,16 @@ public:
 		}
 	}
 
-
+	int Eliminar(Rectangle rect) {
+		int cant = 0;
+		for (int i = 0;i < obstaculos.size();i++) {
+			if (obstaculos[i]->area().IntersectsWith(rect)) {
+				obstaculos.erase(obstaculos.begin() + i--);
+				cant++;
+			}
+		}
+		return cant;
+	}
 	bool Colision(Rectangle obj) {
 		for (Obstaculo* obs : obstaculos) {
 			if (obs->area().IntersectsWith(obj))

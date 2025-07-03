@@ -14,8 +14,10 @@ enum SpriteJugador
 
 class Jugador : public Entidad
 {
-private: 
+private:
 	int vidas;
+	int puntos;
+	int materiales; 
 	SpriteJugador  accion;
 public:
 	Jugador(Bitmap^ img, int v  ) {
@@ -27,6 +29,7 @@ public:
 
 		accion = CaminarDerecha;
 		vidas = v;
+		puntos = 0;
 	}
 	void SetVida(int value) {
 		vidas += value;
@@ -34,6 +37,18 @@ public:
 	int GetVida() {
 		return vidas;
 	}
+	int GetiDx() {
+		return iDx;
+	}
+	int GetPuntos() 
+	{
+		return puntos;
+	}
+	void SetPuntos(int value) 
+	{
+		puntos += value;
+	}
+
 	SpriteJugador GetAccion() 
 	{
 		return accion;
@@ -54,9 +69,10 @@ public:
 	}
 	void mostrar(Graphics^ g, Bitmap^ img) {
 		g->DrawString("vidas: " + vidas, gcnew Font("arial", 12), Brushes::Black, 0, 0);
+		g->DrawString("puntos: " + puntos, gcnew Font("arial", 12), Brushes::Black, 0, 40);
 		Rectangle corte = Rectangle(iDx * ancho, accion * alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);
-		g->DrawRectangle(Pens::Black, area());
+		//g->DrawRectangle(Pens::Black, area());
 		g->DrawRectangle(Pens::Blue, HitBox());
 		
 		if(accion>=CaminarDerecha && accion<=CaminarIzquierda&&(dx!=0||dy!=0))

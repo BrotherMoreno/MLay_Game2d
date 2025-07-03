@@ -37,6 +37,7 @@ namespace MLayGame2d {
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
+		Bitmap^ fondoRenderizado;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -50,6 +51,7 @@ namespace MLayGame2d {
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyJuego::typeid));
 			this->Clock = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
@@ -63,7 +65,11 @@ namespace MLayGame2d {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1262, 579);
+			this->BackColor = System::Drawing::SystemColors::ButtonFace;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
+			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
+			this->ClientSize = System::Drawing::Size(830, 467);
+			this->ForeColor = System::Drawing::SystemColors::ControlText;
 			this->Name = L"MyJuego";
 			this->Text = L"MyJuego";
 			this->Load += gcnew System::EventHandler(this, &MyJuego::MyJuego_Load);
@@ -77,7 +83,11 @@ namespace MLayGame2d {
 		Graphics^ g = this->CreateGraphics();
 		BufferedGraphicsContext^ bfc = BufferedGraphicsManager::Current;
 		BufferedGraphics^ bf = bfc->Allocate(g, this->ClientRectangle);
-		bf->Graphics->Clear(Color::White);
+
+		// Dibuja el fondo pre-renderizado (rápido)
+		bf->Graphics->DrawImage(fondoRenderizado, 0, 0);
+
+		// Luego el juego encima
 		juego->mostrar(bf->Graphics);
 		bf->Render(g);
 
@@ -90,10 +100,16 @@ namespace MLayGame2d {
 	}
 	private: System::Void MyJuego_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		juego->movimientoJugador(false, e->KeyCode);
+		juego->DispararJugador(e->KeyCode);
 	}
 	private: System::Void MyJuego_Load(System::Object^ sender, System::EventArgs^ e) {
+		fondoRenderizado = gcnew Bitmap(this->ClientSize.Width, this->ClientSize.Height);
+		Graphics^ gFondo = Graphics::FromImage(fondoRenderizado);
+		gFondo->DrawImage(this->BackgroundImage, 0, 0, this->ClientSize.Width, this->ClientSize.Height);
+		delete gFondo;
 	}
 	};
+	// este es el juego bien
 }
 
 

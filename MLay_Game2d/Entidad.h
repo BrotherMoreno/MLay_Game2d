@@ -45,7 +45,7 @@ public:
 		y += dy;
 		x += dx;
 	}
-	virtual void mostrar(Graphics^ g) {
+	virtual void mostrar(Graphics^ g,Bitmap^ img) {
 		g->FillRectangle(Brushes::Black, area());
 	}
 

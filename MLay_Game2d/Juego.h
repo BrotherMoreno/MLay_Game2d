@@ -2,6 +2,7 @@
 #include "Jugador.h"
 #include "Obstaculo.h"
 #include "Enemigo.h"
+#include "ProyectilCorteVital.h"
 ref class ControladorJuego
 
 
@@ -10,21 +11,24 @@ private:
 	Jugador* jugador;
 	Obstaculos* obstaculos;
 	Enemigos* enemigos;
+	CorteVitales* corteVitales; 
 
 	Bitmap^ imgLobo;
 	Bitmap^ imgPersonaje;
 	Bitmap^ imgEnemigo;
+
 	int coolcownAtaqueEnemigo;
 	int tiempo;
 public:
 	ControladorJuego(int v, int E,int t) {
-		imgLobo = gcnew Bitmap("img/BOG.png");
+		imgLobo = gcnew Bitmap("img/powerPurple.png");
 		imgPersonaje = gcnew Bitmap("img/LaySprite2.png");
 		imgEnemigo = gcnew Bitmap("img/MageSprite.png");
 
 		jugador = new Jugador(imgPersonaje, v);
 		obstaculos = new Obstaculos(5,jugador->area(),imgLobo);
 		enemigos = new Enemigos(imgEnemigo, E);
+		corteVitales = new CorteVitales();
 		coolcownAtaqueEnemigo = 0;
 		tiempo= t*1000;
 	}
@@ -35,6 +39,7 @@ public:
 		delete imgPersonaje;
 		delete enemigos;
 		delete imgEnemigo;
+		delete corteVitales;
 	}
 
 	void movimientoJugador(bool accion,  Keys tecla) 
@@ -86,11 +91,21 @@ public:
 				jugador->SetDx(0);
 		}
 	}
+	void DispararJugador(Keys tecla) 
+	{
+		if (tecla == Keys::C) 
+		{
+			if (jugador->GetAccion() == CaminarDerecha)
+				jugador->SetAccion(AtacarDerecha);
+			else if (jugador->GetAccion() == CaminarIzquierda)
+				jugador->SetAccion(AtacarIzquierda);
+		}
+	}
 	bool mover(Graphics^ g)
 	{
-		if (jugador->GetAccion()>=AtacarDerecha && jugador->GetAccion()<=AtacarIzquierda) 
+		if (jugador->GetAccion()>=AtacarDerecha && jugador->GetAccion()<=AtacarIzquierda&& jugador->GetiDx()==7) 
 		{
-			/*obstaculos->Eliminar(jugador->area());*/
+			jugador->SetPuntos(obstaculos->Eliminar(jugador->area()));
 		}
 		if (enemigos->Colision(jugador->area())&& clock() - coolcownAtaqueEnemigo>=2000) {
 			jugador->SetVida(-1);
@@ -105,6 +120,7 @@ public:
 		if(obstaculos->Colision(jugador->NextHitBox())==false)
 			jugador->mover(g);
 		obstaculos->mover(g);
+		corteVitales->mover(g);
 		enemigos->mover(g);
 		return true;
 	}
@@ -112,9 +128,10 @@ public:
 	{
 		g->DrawString("tiempo: "+ ((tiempo - clock()) / 1000), gcnew Font("arial", 12), Brushes::Black, 0, 20);
 
-		jugador->mostrar(g, imgPersonaje);
 		obstaculos->mostrar(g, imgLobo);
+		corteVitales->mostrar(g); 
 		enemigos->mostrar(g, imgEnemigo);
+		jugador->mostrar(g, imgPersonaje);
 
 	}
 };
