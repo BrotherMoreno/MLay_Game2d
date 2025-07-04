@@ -96,14 +96,12 @@ public:
 		}
 		return false; 
 	}
-
 	void mover(Graphics^ g)
 	{
 		for (Enemigo* E : enemigos) {
 			E->Mover(g);
 		}
 	}
-
 	void mostrar(Graphics^ g, Bitmap^ img)
 	{
 		for (Enemigo* E : enemigos) {

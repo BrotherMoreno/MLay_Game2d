@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Entidades">
+      <UniqueIdentifier>{16dad8b9-356d-405a-bf94-9685a94b3fdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyJuego.cpp">
@@ -21,9 +24,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyJuego.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Jugador.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dependencias.h">
@@ -35,14 +35,23 @@
     <ClInclude Include="Juego.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HowlDtroy.h">
+      <Filter>Entidades</Filter>
+    </ClInclude>
     <ClInclude Include="Enemigo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Entidades</Filter>
     </ClInclude>
     <ClInclude Include="Obstaculo.h">
-      <Filter>Header Files</Filter>
+      <Filter>Entidades</Filter>
     </ClInclude>
     <ClInclude Include="ProyectilCorteVital.h">
-      <Filter>Header Files</Filter>
+      <Filter>Entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Jugador.h">
+      <Filter>Entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Coins.h">
+      <Filter>Entidades</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
