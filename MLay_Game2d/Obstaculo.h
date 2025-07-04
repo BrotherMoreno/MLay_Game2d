@@ -27,13 +27,12 @@ public:
 		for (int i = 0;i < n;i++)
 		{
 			Obstaculo* obs = new Obstaculo(img);
-			if (obs->area().IntersectsWith(obj) == false&& Colision(obs->area())==false)
+			if (obs->area().IntersectsWith(obj) == false && Colision(obs->area()) == false)
 				obstaculos.push_back(obs);
 			else {
 				delete obs;
 				i--;
 			}
-
 		}
 	}
 	~Obstaculos()

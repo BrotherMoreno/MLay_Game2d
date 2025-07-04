@@ -16,6 +16,7 @@ private:
 	Bitmap^ imgLobo;
 	Bitmap^ imgPersonaje;
 	Bitmap^ imgEnemigo;
+	Bitmap^ imgProyectilCorteVital;
 
 	int coolcownAtaqueEnemigo;
 	int tiempo;
@@ -23,7 +24,8 @@ public:
 	ControladorJuego(int v, int E,int t) {
 		imgLobo = gcnew Bitmap("img/powerPurple.png");
 		imgPersonaje = gcnew Bitmap("img/LaySprite2.png");
-		imgEnemigo = gcnew Bitmap("img/MageSprite.png");
+		imgEnemigo = gcnew Bitmap("img/powerLayCorteVital.png");
+		imgProyectilCorteVital = gcnew Bitmap("img/powerLayCorteVital.png");
 
 		jugador = new Jugador(imgPersonaje, v);
 		obstaculos = new Obstaculos(5,jugador->area(),imgLobo);
@@ -40,6 +42,7 @@ public:
 		delete enemigos;
 		delete imgEnemigo;
 		delete corteVitales;
+		delete imgProyectilCorteVital;
 	}
 
 	void movimientoJugador(bool accion,  Keys tecla) 
@@ -91,14 +94,22 @@ public:
 				jugador->SetDx(0);
 		}
 	}
-	void DispararJugador(Keys tecla) 
+	void DispararJugador(Keys tecla)
 	{
-		if (tecla == Keys::C) 
+		int v = 20;
+		if (tecla == Keys::C)
 		{
-			if (jugador->GetAccion() == CaminarDerecha)
-				jugador->SetAccion(AtacarDerecha);
-			else if (jugador->GetAccion() == CaminarIzquierda)
+
+			if (jugador->GetAccion() == CaminarIzquierda || jugador->GetAccion() == AtacarIzquierda && jugador->GetiDx()==6)
+			{
 				jugador->SetAccion(AtacarIzquierda);
+				corteVitales->Agregar(jugador->GetX(), jugador->GetY() + jugador->GetAlto() / 4, -v, 0, imgProyectilCorteVital);
+			}
+			if (jugador->GetAccion() == CaminarDerecha || jugador->GetAccion() == AtacarDerecha && jugador->GetiDx() == 6)
+			{
+				jugador->SetAccion(AtacarDerecha);
+				corteVitales->Agregar(jugador->GetX()+jugador->GetAncho(), jugador->GetY() + jugador->GetAlto() / 4, v, 0, imgProyectilCorteVital);
+			}
 		}
 	}
 	bool mover(Graphics^ g)
@@ -107,6 +118,7 @@ public:
 		{
 			jugador->SetPuntos(obstaculos->Eliminar(jugador->area()));
 		}
+
 		if (enemigos->Colision(jugador->area())&& clock() - coolcownAtaqueEnemigo>=2000) {
 			jugador->SetVida(-1);
 			coolcownAtaqueEnemigo = clock();
@@ -129,7 +141,7 @@ public:
 		g->DrawString("tiempo: "+ ((tiempo - clock()) / 1000), gcnew Font("arial", 12), Brushes::Black, 0, 20);
 
 		obstaculos->mostrar(g, imgLobo);
-		corteVitales->mostrar(g); 
+		corteVitales->mostrar(g, imgProyectilCorteVital); 
 		enemigos->mostrar(g, imgEnemigo);
 		jugador->mostrar(g, imgPersonaje);
 

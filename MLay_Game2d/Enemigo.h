@@ -32,8 +32,7 @@ public:
 				dy = 5;
 			dx = 0;
 		}
-
-		ancho = img->Width / 8;
+		ancho = img->Width / 6;
 		alto = img->Height/2;
 
 	}
@@ -49,8 +48,8 @@ public:
 			accion = CaminarIzquierdaEnemigo;
 		else if (dx > 0)
 			accion = CaminarDerechaEnemigo;
-		x += dx;
-		y += dy;
+		x += 5*dx;
+		y += 5*dy;
 	}
 
 	void mostrar(Graphics^ g, Bitmap^ img) {
@@ -59,10 +58,13 @@ public:
 		g->DrawRectangle(Pens::Black, area());
 
 		if (accion == CaminarDerechaEnemigo) {
-			iDx = (iDx + 1) % 4;
+			iDx = (iDx + 1) % 6;
+			
 		}
 		if (accion == CaminarIzquierdaEnemigo) {
-			iDx = (iDx + 1) % 4;
+			iDx = (iDx + 1) % 6;
+			
+
 		}
 	}
 };

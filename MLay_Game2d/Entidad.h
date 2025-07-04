@@ -25,6 +25,18 @@ public:
 		dy = value;
 	}
 	
+	int GetX() {
+		return x;
+	}
+	int GetY() {
+		return y;
+	}
+	int GetAncho() {
+		return ancho;
+	}
+	int GetAlto() {
+		return alto;
+	}
 	Rectangle area() {
 		return Rectangle(x, y, ancho, alto );
 	}
