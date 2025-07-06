@@ -43,7 +43,7 @@ private:
 	// Variables de posición para el material
 	int materialX = 100;
 	int materialY = 100;
-	int materialVel = 10; // Velocidad de movimiento de la imagen
+	int materialVel = 10; 
 
 	List<Bitmap^>^ imagenesMateriales;
 
@@ -88,7 +88,7 @@ public:
 		obstaculos = new Obstaculos(5, jugador->area(), imgLobo);
 		Materiales = nullptr;
 		tiempo = t * 1000;
-		imagenesMateriales = gcnew List<Bitmap^>(); // Inicializa la lista
+		imagenesMateriales = gcnew List<Bitmap^>(); 
 	}
 
 	~ClaseControladorJuego3() {
@@ -153,13 +153,13 @@ public:
 				materialX += materialVel;
 			}
 			else if (tecla == Keys::Space) {
-				// Si la colección aún no existe, créala
+				
 				if (Materiales == nullptr) {
 					Materiales = new MaterialesConstruccion();
 				}
 				Bitmap^ imgActual = getMaterialBitmap(materialActual);
 				Materiales->AgregarMaterial(imgActual, materialX, materialY);
-				imagenesMateriales->Add(imgActual); // Usa Add en vez de push_back
+				imagenesMateriales->Add(imgActual); 
 			}
 		}
 	}
@@ -238,7 +238,7 @@ public:
 	{
 		
 
-		// Mostrar cada material con la imagen que tenía al ser colocado
+		
 		if (Materiales != nullptr) {
 			auto& vec = Materiales->obtenerVector();
 			for (int i = 0; i < (int)vec.size(); ++i) {

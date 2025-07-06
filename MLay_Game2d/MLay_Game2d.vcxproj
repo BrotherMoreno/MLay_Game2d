@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyJuego.cpp" />
+    <ClCompile Include="Nivel2Form.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coins.h" />
@@ -134,16 +135,24 @@
     <ClInclude Include="MyJuego.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Nivel2.h" />
+    <ClInclude Include="Nivel2Form.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Nivel3.h" />
     <ClInclude Include="Nivel3Formh.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Obstaculo.h" />
     <ClInclude Include="ProyectilCorteVital.h" />
+    <ClInclude Include="Roca.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyJuego.resx">
       <DependentUpon>MyJuego.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nivel2Form.resx">
+      <DependentUpon>Nivel2Form.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Nivel3Formh.resx">
       <DependentUpon>Nivel3Formh.h</DependentUpon>

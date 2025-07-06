@@ -22,7 +22,7 @@ enum SpriteHowlDtroy
 class HowlDtroy : public Entidad
 {
 private:
-	int vidas;
+	double vidas;
 	int puntos;
 	int materiales;
 	int xInicial;
@@ -37,7 +37,7 @@ private:
 	clock_t tiempoUltimoFrame = 0;
 
 public:
-	HowlDtroy(Bitmap^ img, int v) {
+	HowlDtroy(Bitmap^ img, double v) {
 		x = 600;
 		y = 150;
 		xInicial = x;
@@ -52,12 +52,8 @@ public:
 		puntos = 0;
 		tiempoUltimoFrame = clock();
 	}
-	void SetVida(int value) {
-		vidas += value;
-	}
-	int GetVida() {
-		return vidas;
-	}
+	void SetVida(double value) { vidas += value; if (vidas < 0) vidas = 0; }
+	double GetVida() { return vidas; }
 	int GetiDx() {
 		return iDx;
 	}

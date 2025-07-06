@@ -26,7 +26,6 @@ public:
 		dx = dy = 0;
 		ancho = img->Width/12;
 		alto = img->Height/7;
-
 		accion = CaminarDerecha;
 		vidas = v;
 		puntos = 0;
@@ -68,8 +67,8 @@ public:
 		}
 	}
 	void mostrar(Graphics^ g, Bitmap^ img) {
-		g->DrawString("vidas: " + vidas, gcnew Font("arial", 12), Brushes::Black, 0, 0);
-		g->DrawString("puntos: " + puntos, gcnew Font("arial", 12), Brushes::Black, 0, 40);
+		//g->DrawString("vidas: " + vidas, gcnew Font("arial", 12), Brushes::Black, 0, 0);
+		g->DrawString("puntos: " + puntos, gcnew Font("Old English Text MT", 15), Brushes::White, 0, 50);
 		Rectangle corte = Rectangle(iDx * ancho, accion * alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);
 		//g->DrawRectangle(Pens::Black, area());

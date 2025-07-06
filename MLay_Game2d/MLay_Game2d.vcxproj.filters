@@ -21,6 +21,9 @@
     <ClCompile Include="MyJuego.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Nivel2Form.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyJuego.h">
@@ -61,6 +64,15 @@
     </ClInclude>
     <ClInclude Include="MaterialesConstruccion.h">
       <Filter>Entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Roca.h">
+      <Filter>Entidades</Filter>
+    </ClInclude>
+    <ClInclude Include="Nivel2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nivel2Form.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
