@@ -41,7 +41,7 @@ public:
 		corteVitales = new CorteVitales();
 		howlDtroy = new HowlDtroy(imgHowlDtroy, 50);
 		coolcownAtaqueEnemigo = 0;
-		coins = new Coins(3, jugador->area(), imgCoins);
+		coins = new Coins(10, jugador->area(), imgCoins);
 		tiempo = t * 1000;
 	}
 	~ControladorJuego() {
@@ -61,20 +61,30 @@ public:
 
 	void movimientoJugador(bool accion, Keys tecla)
 	{
-		int v = 6;
+		int v = 13;
 		if (accion == true)
 		{
 			if (tecla == Keys::Up)
 			{
 
 				jugador->SetDy(-v);
-				jugador->SetAccion(CaminarDerecha);
+				if(jugador->GetAccion()== CaminarDerecha)
+					jugador->SetAccion(CaminarDerecha);
+				else {
+					jugador->SetAccion(CaminarIzquierda);
+
+				}
 			}
 			else if (tecla == Keys::Down)
 			{
-				jugador->SetAccion(CaminarDerecha);
-
+				
 				jugador->SetDy(v);
+				if (jugador->GetAccion() == CaminarIzquierda)
+					jugador->SetAccion(CaminarIzquierda);
+				else {
+					jugador->SetAccion(CaminarDerecha);
+
+				}
 			}
 			else if (tecla == Keys::Left)
 			{
@@ -126,6 +136,113 @@ public:
 			}
 		}
 	}
+	// MLay_Game2d/Juego.h
+	void movimientoHowlDtroy()
+	{
+		int velocidad = 8;
+		int margen = 5;
+
+		Point centroVision = howlDtroy->CentroRangoVision();
+		int radioVision = howlDtroy->RadioRangoVision();
+
+		Point centroJugador = Point(jugador->GetX() + jugador->GetAncho() / 2, jugador->GetY() + jugador->GetAlto() / 2);
+
+		int dx = centroVision.X - centroJugador.X;
+		int dy = centroVision.Y - centroJugador.Y;
+		int distancia2 = dx * dx + dy * dy;
+
+		Rectangle areaAtaque = howlDtroy->HitboxAtk();
+		Rectangle hitboxLobo = howlDtroy->HitBox();
+		Rectangle hitboxJugador = jugador->HitBox();
+
+		if (areaAtaque.IntersectsWith(jugador->HitBox()))
+		{
+			howlDtroy->SetDx(0);
+			howlDtroy->SetDy(0);
+
+			// Decide la dirección del ataque por el centro del jugador respecto al centro del hitbox de ataque
+			int centroAtkX = areaAtaque.X + areaAtaque.Width / 2;
+			int centroJugadorX = jugador->GetX() + jugador->GetAncho() / 2;
+
+			// Ataca siempre que haya colisión, no importa si el centro está dentro o no
+			if (centroJugadorX >= centroAtkX)
+				howlDtroy->SetAccion(HowlAtacarDerecha);
+			else
+				howlDtroy->SetAccion(HowlAtacarIzquierda);
+
+			if (clock() - coolcownAtaqueEnemigo >= 2000)
+			{
+				jugador->SetVida(-1);
+				coolcownAtaqueEnemigo = clock();
+			}
+		}
+		else if (distancia2 <= radioVision * radioVision)
+		{
+			int posLoboX = howlDtroy->GetX();
+			int posLoboY = howlDtroy->GetY();
+			int posJugadorX = jugador->GetX();
+			int posJugadorY = jugador->GetY();
+
+			// Move horizontally towards the player
+			if (posLoboX < posJugadorX) {
+				howlDtroy->SetDx(velocidad);
+				howlDtroy->SetAccion(HowlCaminarDerecha);
+			}
+			else if (posLoboX > posJugadorX) {
+				howlDtroy->SetDx(-velocidad);
+				howlDtroy->SetAccion(HowlCaminarIzquierda);
+			}
+			else {
+				howlDtroy->SetDx(0);
+			}
+
+			// Move vertically towards the player
+			if (posLoboY < posJugadorY) {
+				howlDtroy->SetDy(velocidad);
+			}
+			else if (posLoboY > posJugadorY) {
+				howlDtroy->SetDy(-velocidad);
+			}
+			else {
+				howlDtroy->SetDy(0);
+			}
+		}
+		else
+		{
+			int posLoboX = howlDtroy->GetX();
+			int posLoboY = howlDtroy->GetY();
+			int xInicial = howlDtroy->GetXInicial();
+			int yInicial = howlDtroy->GetYInicial();
+
+			if (posLoboX < xInicial - margen) {
+				howlDtroy->SetDx(velocidad);
+				howlDtroy->SetAccion(HowlCaminarDerecha);
+			}
+			else if (posLoboX > xInicial + margen) {
+				howlDtroy->SetDx(-velocidad);
+				howlDtroy->SetAccion(HowlCaminarIzquierda);
+			}
+			else {
+				howlDtroy->SetDx(0);
+			}
+
+			if (posLoboY < yInicial - margen)
+				howlDtroy->SetDy(velocidad);
+			else if (posLoboY > yInicial + margen)
+				howlDtroy->SetDy(-velocidad);
+			else
+				howlDtroy->SetDy(0);
+
+			if (abs(posLoboX - xInicial) <= margen && abs(posLoboY - yInicial) <= margen) {
+				howlDtroy->SetDx(0);
+				howlDtroy->SetDy(0);
+				if (howlDtroy->GetAccion() == HowlCaminarDerecha)
+					howlDtroy->SetAccion(HowlAnimStableDerecha);
+				if (howlDtroy->GetAccion() == HowlCaminarIzquierda)
+					howlDtroy->SetAccion(HowlAnimStableIzquierda);
+			}
+		}
+	}
 	bool mover(Graphics^ g)
 	{
 		if (jugador->GetAccion() >= AtacarDerecha && jugador->GetAccion() <= AtacarIzquierda && jugador->GetiDx() == 7)
@@ -140,28 +257,30 @@ public:
 			if (jugador->GetVida() == 0)
 				return false;
 		}
-		if (clock() >= tiempo)
-			return false;
-
-		if (obstaculos->Colision(jugador->NextHitBox()) == false)
-			jugador->mover(g);
-		obstaculos->mover(g);
-		howlDtroy->mover(g);
+		/*if (clock() >= tiempo)
+			return false;*/
+		if (coins->Colision(jugador->HitBox())) {
+			jugador->SetPuntos(coins->Eliminar(jugador->HitBox()));
+		}
+		/*if (obstaculos->Colision(jugador->NextHitBox()) == false)*/
+		jugador->mover(g);
+		//obstaculos->mover(g);
+		howlDtroy->moverHowl(g);
 		corteVitales->mover(g);
-		enemigos->mover(g);
+		/*enemigos->mover(g);*/
 		//coins->mover(g);
 		return true;
 	}
 	void mostrar(Graphics^ g)
 	{
-		g->DrawString("tiempo: " + ((tiempo - clock()) / 1000), gcnew Font("arial", 12), Brushes::Black, 0, 20);
+		/*g->DrawString("tiempo: " + ((tiempo - clock()) / 1000), gcnew Font("arial", 12), Brushes::Black, 0, 20);*/
 		
-		obstaculos->mostrar(g, imgLobo);
+		//obstaculos->mostrar(g, imgLobo);
 		corteVitales->mostrar(g, imgProyectilCorteVital);
-		enemigos->mostrar(g, imgEnemigo);
-		howlDtroy->mostrar(g, imgHowlDtroy);
+		/*enemigos->mostrar(g, imgEnemigo);*/
 		coins->mostrar(g, imgCoins);
 		jugador->mostrar(g, imgPersonaje);
+		howlDtroy->mostrar(g, imgHowlDtroy);
 
 
 	}

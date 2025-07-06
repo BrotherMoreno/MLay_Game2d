@@ -130,7 +130,12 @@
     <ClInclude Include="HowlDtroy.h" />
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Jugador.h" />
+    <ClInclude Include="MaterialesConstruccion.h" />
     <ClInclude Include="MyJuego.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Nivel3.h" />
+    <ClInclude Include="Nivel3Formh.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Obstaculo.h" />
@@ -139,6 +144,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MyJuego.resx">
       <DependentUpon>MyJuego.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nivel3Formh.resx">
+      <DependentUpon>Nivel3Formh.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -59,7 +59,7 @@ public:
 		}
 		accion = value;
 	}
-	void mover(Graphics^ g) {
+	void mover(Graphics^ g) override {
 		if (x + dx >= 0 && x + ancho + dx <= g->VisibleClipBounds.Width) {
 			x += dx;
 		}
@@ -73,7 +73,7 @@ public:
 		Rectangle corte = Rectangle(iDx * ancho, accion * alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);
 		//g->DrawRectangle(Pens::Black, area());
-		/*g->DrawRectangle(Pens::Blue, HitBox());*/
+		g->DrawRectangle(Pens::Blue, HitBox());
 		
 		if(accion>=CaminarDerecha && accion<=CaminarIzquierda&&(dx!=0||dy!=0))
 		{

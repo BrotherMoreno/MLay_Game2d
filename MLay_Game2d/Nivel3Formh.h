@@ -1,5 +1,6 @@
 #pragma once
-#include "Juego.h"
+#include "Nivel3.h"
+
 namespace MLayGame2d {
 
 	using namespace System;
@@ -9,24 +10,18 @@ namespace MLayGame2d {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Summary for MyJuego
-	/// </summary>
-	public ref class MyJuego : public System::Windows::Forms::Form
+	public ref class Nivel3Formh : public System::Windows::Forms::Form
 	{
-		ControladorJuego^ juego;
+		ClaseControladorJuego3^ juego;
 	public:
-		MyJuego(void)
+		Nivel3Formh(void)
 		{
 			InitializeComponent();
-			juego = gcnew ControladorJuego(10,7,30);
+			juego = gcnew ClaseControladorJuego3(10, 7, 30);
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		~MyJuego()
+		~Nivel3Formh()
 		{
 			if (components)
 			{
@@ -35,23 +30,14 @@ namespace MLayGame2d {
 		}
 	private: System::Windows::Forms::Timer^ Clock;
 	private: System::ComponentModel::IContainer^ components;
-
 	private:
 		Bitmap^ fondoRenderizado;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		 
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyJuego::typeid));
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Nivel3Formh::typeid));
 			this->Clock = (gcnew System::Windows::Forms::Timer(this->components));
 			this->SuspendLayout();
 			// 
@@ -59,9 +45,9 @@ namespace MLayGame2d {
 			// 
 			this->Clock->Enabled = true;
 			this->Clock->Interval = 33;
-			this->Clock->Tick += gcnew System::EventHandler(this, &MyJuego::Clock_Tick);
+			this->Clock->Tick += gcnew System::EventHandler(this, &Nivel3Formh::Clock_Tick);
 			// 
-			// MyJuego
+			// Nivel3Formh
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -72,12 +58,11 @@ namespace MLayGame2d {
 			this->Cursor = System::Windows::Forms::Cursors::Default;
 			this->DoubleBuffered = true;
 			this->ForeColor = System::Drawing::SystemColors::ControlText;
-			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
-			this->Name = L"MyJuego";
+			this->Name = L"Nivel3Formh";
 			this->Text = L"MLAY";
-			this->Load += gcnew System::EventHandler(this, &MyJuego::MyJuego_Load);
-			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MyJuego::MyJuego_KeyDown);
-			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MyJuego::MyJuego_KeyUp);
+			this->Load += gcnew System::EventHandler(this, &Nivel3Formh::Nivel3Formh_Load);
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Nivel3Formh::Nivel3Formh_KeyDown);
+			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &Nivel3Formh::Nivel3Formh_KeyUp);
 			this->ResumeLayout(false);
 
 		}
@@ -88,7 +73,8 @@ namespace MLayGame2d {
 		BufferedGraphics^ bf = bfc->Allocate(g, this->ClientRectangle);
 
 		// Dibuja el fondo pre-renderizado (rápido)
-		bf->Graphics->DrawImage(fondoRenderizado, 0, 0);
+		if (fondoRenderizado != nullptr)
+			bf->Graphics->DrawImage(fondoRenderizado, 0, 0);
 
 		// Luego el juego encima
 		juego->mostrar(bf->Graphics);
@@ -97,24 +83,24 @@ namespace MLayGame2d {
 		if (juego->mover(g) == false) {
 			this->Close();
 		}
-		juego->movimientoHowlDtroy();
+
+		delete bf;
+		delete g;
 	}
-	private: System::Void MyJuego_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	private: System::Void Nivel3Formh_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		juego->movimientoJugador(true, e->KeyCode);
+		juego->moverMateriales(true, e->KeyCode);
+		
 	}
-	private: System::Void MyJuego_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	private: System::Void Nivel3Formh_KeyUp(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		juego->movimientoJugador(false, e->KeyCode);
-		juego->DispararJugador(e->KeyCode);
 	}
-	private: System::Void MyJuego_Load(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void Nivel3Formh_Load(System::Object^ sender, System::EventArgs^ e) {
 		fondoRenderizado = gcnew Bitmap(this->ClientSize.Width, this->ClientSize.Height);
 		Graphics^ gFondo = Graphics::FromImage(fondoRenderizado);
-		gFondo->DrawImage(this->BackgroundImage, 0, 0, this->ClientSize.Width, this->ClientSize.Height);
+		if (this->BackgroundImage != nullptr)
+			gFondo->DrawImage(this->BackgroundImage, 0, 0, this->ClientSize.Width, this->ClientSize.Height);
 		delete gFondo;
 	}
 	};
-	// este es el juego bien
 }
-
-
-

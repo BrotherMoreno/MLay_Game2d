@@ -53,5 +53,14 @@
     <ClInclude Include="Coins.h">
       <Filter>Entidades</Filter>
     </ClInclude>
+    <ClInclude Include="Nivel3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Nivel3Formh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialesConstruccion.h">
+      <Filter>Entidades</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
