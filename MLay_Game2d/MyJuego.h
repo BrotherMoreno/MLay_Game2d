@@ -1,5 +1,6 @@
 #pragma once
 #include "Juego.h"
+#include "Nivel2Form.h"
 namespace MLayGame2d {
 
 	using namespace System;
@@ -37,6 +38,8 @@ namespace MLayGame2d {
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
+		bool esperandoTransicion = false;
+		clock_t tiempoInicioTransicion = 0;
 		Bitmap^ fondoRenderizado;
 		/// <summary>
 		/// Required designer variable.
@@ -96,8 +99,22 @@ namespace MLayGame2d {
 
 		if (juego->mover(g) == false) {
 			this->Close();
+			return;
 		}
 		juego->movimientoHowlDtroy();
+
+		// --- TRANSICIÓN DE NIVEL ---
+		if (!esperandoTransicion && juego->DebePasarNivel()) {
+			esperandoTransicion = true;
+			tiempoInicioTransicion = clock();
+		}
+		if (esperandoTransicion && (clock() - tiempoInicioTransicion) > 3000) { // 3 segundos
+			this->Clock->Enabled = false; // Detén el timer para evitar doble ejecución
+			MLayGame2d::Nivel2Form^ nivel2 = gcnew MLayGame2d::Nivel2Form();
+			nivel2->Show();
+			this->Hide(); // Oculta el formulario actual
+			// Opcional: puedes usar this->Close(); si tu aplicación no termina al cerrar este form
+		}
 	}
 	private: System::Void MyJuego_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 		juego->movimientoJugador(true, e->KeyCode);

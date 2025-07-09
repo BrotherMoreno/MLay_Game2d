@@ -118,14 +118,14 @@ public:
 		Point centro = CentroRangoVision();
 		int radio = RadioRangoVision();
 		int radioAtk = RadioAtk();
-		g->DrawEllipse(Pens::Red, centro.X - radio, centro.Y - radio, radio * 2, radio * 2);
+		//g->DrawEllipse(Pens::Red, centro.X - radio, centro.Y - radio, radio * 2, radio * 2);
 		//g->DrawEllipse(Pens::Black, centro.X - radioAtk, centro.Y - radioAtk, radioAtk * 2, radioAtk * 2);
 		Rectangle corte = Rectangle(iDx * ancho, accion * alto, ancho, alto);
 		g->DrawImage(img, area(), corte, GraphicsUnit::Pixel);    
-		g->DrawRectangle(Pens::Blue, HitBoxHowlColision());
+	/*	g->DrawRectangle(Pens::Blue, HitBoxHowlColision());
 		g->DrawRectangle(Pens::Black, HitboxAtk());
 		g->DrawRectangle(Pens::Black, area());
-		g->DrawRectangle(Pens::Red, HitboxRangoVision());
+		g->DrawRectangle(Pens::Red, HitboxRangoVision());*/
 
 		if (accion == HowlAnimStableIzquierda || accion == HowlAnimStableDerecha)
 		{
@@ -191,7 +191,11 @@ public:
 		}
 		else if (accion >= HowlMorirIzquierda && accion <= HowlMorirDerecha)
 		{
-			iDx = (iDx + 1) % 8;
+			// Suponiendo que la animación de muerte tiene 8 frames (0 a 7)
+			if (iDx < 7) {
+				iDx++;
+			}
+			// Si ya está en el último frame, no incrementa más
 		}
 
 

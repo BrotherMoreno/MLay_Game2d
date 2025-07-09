@@ -12,7 +12,7 @@ class Roca : public Entidad
 public:
 	Roca(Bitmap^ img) {
 		x = rand() % 700;
-		y = rand() % 700;
+		y = rand() % 400;
 		ancho = img->Width;
 		alto = img->Height;
 		accion = animRoca;

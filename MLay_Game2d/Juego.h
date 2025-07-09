@@ -39,8 +39,17 @@ private:
 	bool howlAturdido = false;
 	clock_t tiempoAturdido = 0;
 	// ----------------------------------------
-
+	bool nivelCompletado = false;
+	bool howlMuerto = false;
+	bool animacionMuerteIniciada = false;
+	clock_t tiempoMuerteHowl = 0;
+	bool TodoRecolectado() {
+		return rocas->GetRocas().empty() && !coins->Colision(jugador->HitBox());
+	}
 public:
+	bool DebePasarNivel() {
+		return nivelCompletado;
+	}
 	ControladorJuego(int v, int E, int t) {
 		imgLobo = gcnew Bitmap("img/powerPurple.png");
 		imgPersonaje = gcnew Bitmap("img/LaySprite2.png");
@@ -153,6 +162,7 @@ public:
 	void movimientoHowlDtroy()
 	{
 		// Si está aturdido, no se mueve ni cambia de animación
+		if (howlMuerto) return;
 		if (howlAturdido) return;
 
 		int velocidad = 8;
@@ -313,7 +323,29 @@ public:
 				howlDtroy->SetDy(0);
 			}
 		}
+		// --- Lógica de muerte de Howl y transición ---
+		if (!howlMuerto && howlDtroy->GetVida() <= 0) {
+			howlMuerto = true;
+			animacionMuerteIniciada = true;
+			tiempoMuerteHowl = clock();
+			howlDtroy->SetAccion(HowlMorirDerecha); // Asegúrate de tener este estado en tu enum
+			howlDtroy->SetDx(0);
+			howlDtroy->SetDy(0);
+		}
 
+		if (howlMuerto) {
+			// Espera 2 segundos para la animación de muerte
+			if (animacionMuerteIniciada && (clock() - tiempoMuerteHowl) >= 2000) {
+				animacionMuerteIniciada = false;
+				// Si ya recolectaste todo, marca el nivel como completado
+				if (TodoRecolectado()) {
+					nivelCompletado = true;
+				}
+			}
+			jugador->mover(g);
+			corteVitales->mover(g);
+			return true;
+		}
 		jugador->mover(g);
 		howlDtroy->moverHowl(g);
 		corteVitales->mover(g);

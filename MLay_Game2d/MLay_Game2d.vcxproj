@@ -120,19 +120,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Creditos.cpp" />
+    <ClCompile Include="Instrucciones.cpp" />
     <ClCompile Include="MyJuego.cpp" />
-    <ClCompile Include="Nivel2Form.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Coins.h" />
+    <ClInclude Include="Creditos.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Dependencias.h" />
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="HowlDtroy.h" />
+    <ClInclude Include="Instrucciones.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Jugador.h" />
     <ClInclude Include="MaterialesConstruccion.h" />
     <ClInclude Include="MyJuego.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="MyMenuForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Nivel2.h" />
@@ -148,8 +158,17 @@
     <ClInclude Include="Roca.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Creditos.resx">
+      <DependentUpon>Creditos.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Instrucciones.resx">
+      <DependentUpon>Instrucciones.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MyJuego.resx">
       <DependentUpon>MyJuego.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyMenuForm.resx">
+      <DependentUpon>MyMenuForm.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Nivel2Form.resx">
       <DependentUpon>Nivel2Form.h</DependentUpon>

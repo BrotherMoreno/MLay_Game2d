@@ -58,6 +58,7 @@ namespace MLayGame2d {
 			this->Cursor = System::Windows::Forms::Cursors::Default;
 			this->DoubleBuffered = true;
 			this->ForeColor = System::Drawing::SystemColors::ControlText;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"Nivel3Formh";
 			this->Text = L"MLAY";
 			this->Load += gcnew System::EventHandler(this, &Nivel3Formh::Nivel3Formh_Load);

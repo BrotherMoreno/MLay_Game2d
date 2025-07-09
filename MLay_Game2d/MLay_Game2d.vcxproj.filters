@@ -21,7 +21,10 @@
     <ClCompile Include="MyJuego.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Nivel2Form.cpp">
+    <ClCompile Include="Instrucciones.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Creditos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,6 +75,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Nivel2Form.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMenuForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Instrucciones.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Creditos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
