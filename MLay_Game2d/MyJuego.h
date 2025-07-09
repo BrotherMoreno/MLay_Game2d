@@ -1,6 +1,7 @@
 #pragma once
 #include "Juego.h"
 #include "Nivel2Form.h"
+using namespace System::Media;
 namespace MLayGame2d {
 
 	using namespace System;
@@ -29,6 +30,9 @@ namespace MLayGame2d {
 		/// </summary>
 		~MyJuego()
 		{
+			if (nivel1SoundPlayer != nullptr) {
+				nivel1SoundPlayer->Stop();
+			}
 			if (components)
 			{
 				delete components;
@@ -41,6 +45,7 @@ namespace MLayGame2d {
 		bool esperandoTransicion = false;
 		clock_t tiempoInicioTransicion = 0;
 		Bitmap^ fondoRenderizado;
+		SoundPlayer^ nivel1SoundPlayer;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -124,10 +129,19 @@ namespace MLayGame2d {
 		juego->DispararJugador(e->KeyCode);
 	}
 	private: System::Void MyJuego_Load(System::Object^ sender, System::EventArgs^ e) {
-		fondoRenderizado = gcnew Bitmap(this->ClientSize.Width, this->ClientSize.Height);
+			fondoRenderizado = gcnew Bitmap(this->ClientSize.Width, this->ClientSize.Height);
 		Graphics^ gFondo = Graphics::FromImage(fondoRenderizado);
 		gFondo->DrawImage(this->BackgroundImage, 0, 0, this->ClientSize.Width, this->ClientSize.Height);
 		delete gFondo;
+
+		nivel1SoundPlayer = gcnew SoundPlayer("Nivel1Sonido.wav");
+		try {
+			nivel1SoundPlayer->Load();
+			nivel1SoundPlayer->PlayLooping();
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show("No se pudo reproducir la música del nivel 1: " + ex->Message);
+		}
 	}
 	};
 	// este es el juego bien

@@ -36,7 +36,7 @@ namespace MLayGame2d {
 		}
 
 	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::Label^ label3;
+
 
 	protected:
 
@@ -55,7 +55,6 @@ namespace MLayGame2d {
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Creditos::typeid));
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// label2
@@ -71,29 +70,13 @@ namespace MLayGame2d {
 			this->label2->TabIndex = 0;
 			this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 			// 
-			// label3
-			// 
-			this->label3->AutoSize = true;
-			this->label3->BackColor = System::Drawing::Color::Transparent;
-			this->label3->Font = (gcnew System::Drawing::Font(L"Showcard Gothic", 48, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label3->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(192)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
-				static_cast<System::Int32>(static_cast<System::Byte>(192)));
-			this->label3->Location = System::Drawing::Point(225, 45);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(345, 79);
-			this->label3->TabIndex = 1;
-			this->label3->Text = L"CREDITOS";
-			this->label3->TextAlign = System::Drawing::ContentAlignment::TopCenter;
-			this->label3->Click += gcnew System::EventHandler(this, &Creditos::label3_Click);
-			// 
 			// Creditos
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(886, 540);
-			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->DoubleBuffered = true;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));

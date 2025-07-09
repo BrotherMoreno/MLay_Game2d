@@ -5,6 +5,9 @@
 #include "Instrucciones.h"
 #include "Creditos.h"
 
+// Agrega este using para el reproductor de sonido
+using namespace System::Media;
+
 namespace MLayGame2d {
 
 	using namespace System;
@@ -34,6 +37,10 @@ namespace MLayGame2d {
 		/// </summary>
 		~MyMenuForm()
 		{
+			// Detener el sonido al cerrar el formulario
+			if (menuSoundPlayer != nullptr) {
+				menuSoundPlayer->Stop();
+			}
 			if (components)
 			{
 				delete components;
@@ -43,6 +50,10 @@ namespace MLayGame2d {
 	private: System::Windows::Forms::Button^ instrucciones;
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Button^ button2;
+
+	// Agrega el reproductor de sonido como miembro privado
+	private:
+		SoundPlayer^ menuSoundPlayer;
 
 	protected:
 
@@ -75,9 +86,9 @@ namespace MLayGame2d {
 			this->Jugar->Font = (gcnew System::Drawing::Font(L"Showcard Gothic", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->Jugar->ForeColor = System::Drawing::Color::Fuchsia;
-			this->Jugar->Location = System::Drawing::Point(133, 404);
+			this->Jugar->Location = System::Drawing::Point(70, 434);
 			this->Jugar->Name = L"Jugar";
-			this->Jugar->Size = System::Drawing::Size(149, 58);
+			this->Jugar->Size = System::Drawing::Size(159, 58);
 			this->Jugar->TabIndex = 0;
 			this->Jugar->Text = L"Jugar";
 			this->Jugar->UseVisualStyleBackColor = true;
@@ -90,9 +101,9 @@ namespace MLayGame2d {
 			this->instrucciones->Font = (gcnew System::Drawing::Font(L"Showcard Gothic", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->instrucciones->ForeColor = System::Drawing::Color::Fuchsia;
-			this->instrucciones->Location = System::Drawing::Point(476, 404);
+			this->instrucciones->Location = System::Drawing::Point(265, 434);
 			this->instrucciones->Name = L"instrucciones";
-			this->instrucciones->Size = System::Drawing::Size(132, 58);
+			this->instrucciones->Size = System::Drawing::Size(159, 58);
 			this->instrucciones->TabIndex = 1;
 			this->instrucciones->Text = L"instrucciones";
 			this->instrucciones->UseVisualStyleBackColor = true;
@@ -105,9 +116,9 @@ namespace MLayGame2d {
 			this->button1->Font = (gcnew System::Drawing::Font(L"Showcard Gothic", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button1->ForeColor = System::Drawing::Color::Fuchsia;
-			this->button1->Location = System::Drawing::Point(318, 404);
+			this->button1->Location = System::Drawing::Point(455, 434);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(132, 58);
+			this->button1->Size = System::Drawing::Size(159, 58);
 			this->button1->TabIndex = 2;
 			this->button1->Text = L"creditos";
 			this->button1->UseVisualStyleBackColor = true;
@@ -122,9 +133,9 @@ namespace MLayGame2d {
 			this->button2->Font = (gcnew System::Drawing::Font(L"Showcard Gothic", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button2->ForeColor = System::Drawing::Color::Fuchsia;
-			this->button2->Location = System::Drawing::Point(637, 404);
+			this->button2->Location = System::Drawing::Point(643, 434);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(132, 58);
+			this->button2->Size = System::Drawing::Size(159, 58);
 			this->button2->TabIndex = 3;
 			this->button2->Text = L"Salir ";
 			this->button2->UseVisualStyleBackColor = false;
@@ -145,11 +156,17 @@ namespace MLayGame2d {
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"MyMenuForm";
 			this->Text = L"MLay";
+			this->Load += gcnew System::EventHandler(this, &MyMenuForm::MyMenuForm_Load);
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		// Detener el sonido del menú antes de abrir el juego
+		if (menuSoundPlayer != nullptr) {
+			menuSoundPlayer->Stop();
+		}
+
 		MLayGame2d::MyJuego^ myJuego = gcnew MLayGame2d::MyJuego();
 		myJuego->Show();
 		this->Hide();
@@ -170,5 +187,16 @@ namespace MLayGame2d {
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
-	};
+	private: System::Void MyMenuForm_Load(System::Object^ sender, System::EventArgs^ e) {
+		// Reproduce el sonido del menú al cargar el formulario
+		menuSoundPlayer = gcnew SoundPlayer("MenuJuegoSonido.wav");
+		try {
+			menuSoundPlayer->Load();
+			menuSoundPlayer->PlayLooping();
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show("No se pudo reproducir el sonido del menú: " + ex->Message);
+		}
+	}
+};
 }
